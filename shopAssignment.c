@@ -58,7 +58,7 @@ void printCustomer(struct Customer c)
 struct Shop createAndStockShop()
 {
 	// dynamic memory allocation is NB when dealing with external files
-	// instance of shop with 0 cash
+	// instance of shop with 0 cash as we will read amount from csv file
 	struct Shop shop = { 0 };
     FILE * fp;
     char * line = NULL;
@@ -75,11 +75,15 @@ struct Shop createAndStockShop()
         // printf("Retrieved line of length %zu:\n", read);
         // printf("%s IS A LINE", line);
 		
-		
-		if (strstr(line,"cash") != NULL|strstr(line,"cash") !=NULL){
+		// checking that cash has a value
+		if (strstr(line,"cash") != NULL){
+			
+			//getting name and amount
 			char *n = strtok(line, ",");
 			char *c = strtok(NULL, ",");
+			// atof converts string to float to get rid of /n
 			double cash = atof(c);
+			// specifying the value to shop instance init above
 			shop.cash = cash;
 		}
 		
