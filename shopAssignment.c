@@ -7,6 +7,9 @@
 // needed to read in file
 #include <stdlib.h>
 
+// https://stackoverflow.com/questions/28654792/what-do-i-need-to-do-so-the-function-isspace-work-in-c
+#include <ctype.h>
+
 // A struct is a type of data we define ourselves
 struct Product {
 	// using a pointer
@@ -44,14 +47,16 @@ void printProduct(struct Product p)
 void printCustomer(struct Customer c)
 {
 	printf("CUSTOMER NAME: %s \nCUSTOMER BUDGET: %.2f\n", c.name, c.budget);
+
 	printf("-------------\n");
 	for(int i = 0; i < c.index; i++)
 	{
 		printProduct(c.shoppingList[i].product);
 		printf("%s ORDERS %d OF ABOVE PRODUCT\n", c.name, c.shoppingList[i].quantity);
 		double cost = c.shoppingList[i].quantity * c.shoppingList[i].product.price; 
-		printf("The cost to %s will be €%.2f\n", c.name, cost);
+		printf("The cost to %s will be €%.2f\n\n", c.name, cost);
 	}
+	
 }
 
 // makes shop and reads in stock
@@ -116,15 +121,95 @@ struct Shop createAndStockShop()
 	return shop;
 }
 
+// looks for characters that will effect formatting
+// refrenced https://stackoverflow.com/questions/9628637/how-can-i-get-rid-of-n-from-string-in-c
+const char * stripLine(char *textStr){
+	// looking for \n characters 
+	if (textStr[strlen(textStr)-1] == '\n'){
+		// changes to \0 which has no format effect
+		textStr[strlen(textStr)-1] = '\0';
+	}
+	
+	// looking for \r characters
+	if (textStr[strlen(textStr)-1] == '\r'){
+		// if true changes to \0
+		textStr[strlen(textStr)-1] = '\0';
+		
+	}
+	// refrenced https://stackoverflow.com/questions/122616/how-do-i-trim-leading-trailing-whitespace-in-a-standard-way?rq=1
+	while(isspace( (unsigned char)*textStr ) ) textStr++;
+	// retruns properly foratted string
+	return textStr;
+	
+}
+
+struct Customer createShoppingList(char *csvfile){
+	
+	struct Customer customer = { 0 };
+	FILE * fp;
+	char * line = NULL;
+	size_t length = 0;
+	ssize_t read;
+	
+	fp = fopen(csvfile, "r");
+	//if (fp == NULL)
+		//exit(EXIT_FAILURE);
+	
+	while ((read = getline(&line, &length, fp)) != -1){
+		
+		char *n = strtok(line, ",");
+		char *b = strtok(NULL, ",");
+		char *name = malloc(sizeof(char) * 25);
+		char *budg = malloc(sizeof(char) * 25);
+		
+		//strcpy(name, n);
+		//strcpy(budg, b);
+		//name = stripNewline(n);
+		//budg = stripNewline(b);
+		
+		strcpy(name, stripLine(n));
+		strcpy(budg, stripLine(b));
+		
+		//if customer name is returned then do this
+		if (strstr(name, "Name") != NULL|strstr(name, "name") != NULL){
+			//printf("%s:\t%s\n", n, b);
+			customer.name = budg;
+		}
+		
+		//otherwise if budget is returned do this
+		else if (strstr(name, "Budget") != NULL|strstr(name, "budget") != NULL){
+			double budget = atof(budg);
+			//printf("%s:\t%.2f\n", name ,budg);
+			customer.budget = budget;
+		}
+		//otherwise add the shopping list quantity to the customer is a strctured way
+		//and increment the index
+		
+		else {
+			int n = atoi(budg);
+			//printf("%s:\t%i\n", n, b);
+			struct Product product = { name };
+			struct ProductStock shopList = { product, n };
+			customer.shoppingList[customer.index++] = shopList;
+			
+		}
+	}
+	
+	return customer;
+}
+
 void printShop(struct Shop s)
 {
 	printf("Shop has %.2f in cash\n", s.cash);
+	// addded for readablity
+	printf("\n");
 	
 	// going into shop and accessing each individual product
 	for (int i = 0; i < s.index; i++)
 	{
 		printProduct(s.stock[i].product);
 		printf("The shop has %d of the above\n", s.stock[i].quantity);
+		printf("\n");
 	}
 }
 
@@ -146,7 +231,10 @@ int main(void)
 	// printCustomer(dominic);
 	
 	struct Shop shop = createAndStockShop();
-	printShop(shop);
+	//printShop(shop);
+	
+	struct Customer customer = createShoppingList("order1.csv");
+	printCustomer(customer);
 	
 // printf("The shop has %d of the product %s\n", cokeStock.quantity, cokeStock.product.name);
 	
