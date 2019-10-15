@@ -27,7 +27,7 @@ struct ProductStock {
 struct Shop {
 	double cash;
 	// init an array of 20 to hold stock
-	struct ProductStock stock[20];
+	struct ProductStock stock[10];
 	// in C cant check array length so we have to keep track of it here were using index
 	int index;
 };
@@ -89,7 +89,8 @@ struct Shop createAndStockShop()
     while ((read = getline(&line, &len, fp)) != -1) {
 		
 		// checking that cash has a value
-		if (strstr(line,"cash") != NULL){
+		// need to check both seg error
+		if (strstr(line,"cash") != NULL|strstr(line,"Cash") != NULL){
 			
 			//getting name and amount
 			char *n = strtok(line, ",");
@@ -189,14 +190,16 @@ struct Customer createShoppingList(char *csvfile){
 		}
 		
 		// if customer name is returned then do this
-		if (strstr(trackers[0], "name") != NULL){
+		// seg errror
+		if (strstr(trackers[0],"Name") != NULL|strstr(trackers[0],"name") != NULL){
 			// add name to the customer struct
 			customer.name = trackers[1];
 			
 		}
 		
 		// otherwise if budget is returned do this
-		else if (strstr(trackers[0], "budget") != NULL){
+		// seg error
+		else if (strstr(trackers[0],"Budget") != NULL|strstr(trackers[0],"budget") != NULL){
 			
 			// atof casts to float
 			double budget = atof(trackers[1]);
@@ -316,10 +319,10 @@ int main(void)
 	// printCustomer(dominic);
 	
 	struct Shop shop = createAndStockShop();
-	printShop(shop);
+	//printShop(shop);
 	
 	struct Customer customer = createShoppingList("order1.csv");
-	printCustomer(customer);
+	//printCustomer(customer);
 	
 	checkOrder(shop, customer);
 	
