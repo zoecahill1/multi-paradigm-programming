@@ -121,6 +121,7 @@ struct Shop createAndStockShop()
 			// then add both to shop
 			struct Product product = { name, price };
 			struct ProductStock stockItem = { product, quantity };
+			// shop at index[0] is incremented and also updated to the amount of stockItem
 			shop.stock[shop.index++] = stockItem;
 			// printf("NAME OF PRODUCT %s PRICE %.2f QUANTITY %d\n", name, price, quantity);
 		}
@@ -128,6 +129,7 @@ struct Shop createAndStockShop()
 	
 	return shop;
 }
+
 
 // looks for characters that will effect formatting
 // refrenced https://stackoverflow.com/questions/9628637/how-can-i-get-rid-of-n-from-string-in-c
@@ -238,6 +240,25 @@ void printShop(struct Shop s)
 	}
 }
 
+void checkOrder(struct Shop s, struct Customer c){
+	//prints out list and stock 
+	// caused segmentation error if not using print in main
+	printf("\n-------------\nORDER\n--------------");
+	printf("\n--------------\nSHOPPING LIST\n------------\n");
+	for (int i=0; i<c.index; i++){
+		printf("%3i. %s\n", i+1, s.stock[i].product.name);
+	}
+	printf("\n-------------\nSTOCK\n-----------------\n");
+	for (int i=0; i<c.index; i++){
+		printf("%3i. %s\n", i+1, s.stock[i].product.name);
+	}
+	
+		
+	}
+	
+}
+
+
 int main(void) 
 {
 	// struct Customer dominic = { "Dominic", 100.0 };
@@ -260,6 +281,8 @@ int main(void)
 	
 	struct Customer customer = createShoppingList("order1.csv");
 	printCustomer(customer);
+	
+	checkOrder(shop, customer);
 	
 // printf("The shop has %d of the product %s\n", cokeStock.quantity, cokeStock.product.name);
 	
