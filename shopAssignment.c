@@ -243,20 +243,59 @@ void printShop(struct Shop s)
 void checkOrder(struct Shop s, struct Customer c){
 	//prints out list and stock 
 	// caused segmentation error if not using print in main
-	printf("\n-------------\nORDER\n--------------");
-	printf("\n--------------\nSHOPPING LIST\n------------\n");
-	for (int i=0; i<c.index; i++){
-		printf("%3i. %s\n", i+1, s.stock[i].product.name);
-	}
-	printf("\n-------------\nSTOCK\n-----------------\n");
-	for (int i=0; i<c.index; i++){
-		printf("%3i. %s\n", i+1, s.stock[i].product.name);
-	}
+	//printf("\n-------------\nORDER\n--------------");
+	//printf("\n--------------\nSHOPPING LIST\n------------\n");
+	//for (int i=0; i<c.index; i++){
+		//printf("%3i. %s\n", i+1, s.stock[i].product.name);
+	//}
+	//printf("\n-------------\nSTOCK\n-----------------\n");
+	//for (int i=0; i<c.index; i++){
+		//printf("%3i. %s\n", i+1, s.stock[i].product.name);
+	//}
 	
+	for (int i=0;i<c.index;i++){
+		// ref 
+		short stockCheck=0;
+		char *list = malloc(sizeof(char) * 25);
+		strcpy(list, c.shoppingList[i].product.name);
 		
+		for (int j=0;j<s.index;j++){
+		
+			char *shop = malloc(sizeof(char) * 25);
+			strcpy(shop, s.stock[j].product.name);
+		
+			//if to check if shop has item or not
+			// if it is then
+			if (strstr(list, shop) != NULL){ 
+				//bool value
+				stockCheck=1;
+				printf("We have %s\n", shop);
+			
+				//then check stock level
+			
+				int orderAmt = c.shoppingList[i].quantity;
+				int shopAmt = s.stock[j].quantity;
+				//means stock to fill the order is available 
+				if (orderAmt<shopAmt){
+					printf("Add to order %s\n", shop);
+				}
+				//otherwise we don't have the stock to fill order
+				else{
+					// test bread
+					printf("We don't have any %s in stock\n", shop);
+				}
+				// loop ends meaning we are at end of list
+			}
+			// test apples
+			if (j == s.index-1 & !stockCheck){
+					printf("Not found%s\n", list);
+			}
+			
+		}
 	}
-	
+	return;
 }
+
 
 
 int main(void) 
