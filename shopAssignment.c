@@ -77,6 +77,7 @@ struct Shop createAndStockShop()
 	struct Shop shop = { 0 };
     FILE * fp;
     char * line = NULL;
+	//https://stackoverflow.com/questions/32717269/how-to-read-an-integer-and-a-char-with-read-function-in-c
     size_t len = 0;
     ssize_t read;
 
@@ -89,7 +90,7 @@ struct Shop createAndStockShop()
     while ((read = getline(&line, &len, fp)) != -1) {
 		
 		// checking that cash has a value
-		// need to check both seg error
+		// https://stackoverflow.com/questions/39986168/segmentation-fault-in-c-cant-figure-out-the-reason
 		if (strstr(line,"cash") != NULL|strstr(line,"Cash") != NULL){
 			
 			//getting name and amount
@@ -183,6 +184,7 @@ struct Customer createShoppingList(char *csvfile){
 			char *tracker = malloc(sizeof(char) * 25);
 			// copies to count after formatting
 			strcpy(tracker, stripLine(n));
+			//printf(tracker);
 			// add all to array
 			trackers[i++]=tracker;
 			//read until next null
@@ -221,6 +223,7 @@ struct Customer createShoppingList(char *csvfile){
 			// update list and update index
 			customer.shoppingList[customer.index++] = shopList;
 			
+			
 		}
 	}
 	
@@ -235,6 +238,7 @@ void printShop(struct Shop s)
 	printf("\n-------------------\n");
 	
 	// going into shop and accessing each individual product
+	// https://www.w3resource.com/c-programming/c-for-loop.php
 	for (int i = 0; i < s.index; i++)
 	{
 		printProduct(s.stock[i].product);
@@ -256,8 +260,23 @@ void checkOrder(struct Shop s, struct Customer c){
 		//printf("%3i. %s\n", i+1, s.stock[i].product.name);
 	//}
 	
+	s.cash;
+	s.index;
+	c.name;
+	c.budget;
+	c.index;
+	s.stock[0].quantity;
+	c.shoppingList[0].quantity;
+	s.stock[0].product.name;
+	c.shoppingList[0].product.name;
+	s.stock[0].product.price;
+	c.shoppingList[0].product.price;
+	
+	
+
+	
 	for (int i=0;i<c.index;i++){
-		// ref 
+		// ref https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/Decisions.html
 		short stockCheck=0;
 		char *list = malloc(sizeof(char) * 25);
 		strcpy(list, c.shoppingList[i].product.name);
@@ -319,7 +338,7 @@ int main(void)
 	// printCustomer(dominic);
 	
 	struct Shop shop = createAndStockShop();
-	//printShop(shop);
+	printShop(shop);
 	
 	struct Customer customer = createShoppingList("order1.csv");
 	//printCustomer(customer);
