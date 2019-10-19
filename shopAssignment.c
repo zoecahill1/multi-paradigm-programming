@@ -7,7 +7,7 @@
 // needed to read in file
 #include <stdlib.h>
 
-// https://stackoverflow.com/questions/28654792/what-do-i-need-to-do-so-the-function-isspace-work-in-c
+// refrenced [1]
 #include <ctype.h>
 
 
@@ -77,7 +77,7 @@ struct Shop createAndStockShop()
 	//struct Shop shop = { 0 };
     FILE * fp;
     char * line = NULL;
-	//https://stackoverflow.com/questions/32717269/how-to-read-an-integer-and-a-char-with-read-function-in-c
+	//refrenced [2]
     size_t len = 0;
     ssize_t read;
 
@@ -94,7 +94,7 @@ struct Shop createAndStockShop()
     while ((read = getline(&line, &len, fp)) != -1) {
 		
 		// checking that cash has a value
-		// https://stackoverflow.com/questions/39986168/segmentation-fault-in-c-cant-figure-out-the-reason
+		//  refrenced [3]
 		if (strstr(line,"cash") != NULL|strstr(line,"Cash") != NULL){
 			
 			//getting name and amount
@@ -138,7 +138,7 @@ struct Shop createAndStockShop()
 
 
 // looks for characters that will effect formatting
-// refrenced https://stackoverflow.com/questions/9628637/how-can-i-get-rid-of-n-from-string-in-c
+// refrenced [4]
 const char * stripLine(char *textStr){
 	// looking for \n characters 
 	if (textStr[strlen(textStr)-1] == '\n'){
@@ -152,7 +152,7 @@ const char * stripLine(char *textStr){
 		textStr[strlen(textStr)-1] = '\0';
 		
 	}
-	// refrenced https://stackoverflow.com/questions/122616/how-do-i-trim-leading-trailing-whitespace-in-a-standard-way?rq=1
+	// refrenced [5]
 	while(isspace( (unsigned char)*textStr ) ) textStr++;
 	// retruns properly foratted string
 	return textStr;
@@ -161,13 +161,13 @@ const char * stripLine(char *textStr){
 
 struct Customer createShoppingList(char *csvfile){
 	
-	//https://ubuntuforums.org/showthread.php?t=1103327
+	//[6]
 	struct Customer customer = { 0 };
 	FILE * fp;
 	char * line = NULL;
 	size_t length = 0;
 	ssize_t read;
-	//https://www.javatpoint.com/c-array
+	//[7]
 	char *trackers[3];
 	
 	fp = fopen(csvfile, "r");
@@ -242,7 +242,7 @@ void printShop(struct Shop s)
 	printf("\n-------------------\n");
 	
 	// going into shop and accessing each individual product
-	// https://www.w3resource.com/c-programming/c-for-loop.php
+	// [8]
 	for (int i = 0; i < s.index; i++)
 	{
 		printProduct(s.stock[i].product);
@@ -280,7 +280,7 @@ void checkOrder(struct Shop s, struct Customer c){
 
 	
 	for (int i=0;i<c.index;i++){
-		// ref https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/Decisions.html
+		// ref [9]
 		short stockCheck=0;
 		char *list = malloc(sizeof(char) * 25);
 		strcpy(list, c.shoppingList[i].product.name);
