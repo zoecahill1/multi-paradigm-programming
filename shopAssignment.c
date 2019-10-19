@@ -74,7 +74,7 @@ struct Shop createAndStockShop()
 {
 	// dynamic memory allocation is NB when dealing with external files
 	// instance of shop with 0 cash as we will read amount from csv file
-	struct Shop shop = { 0 };
+	//struct Shop shop = { 0 };
     FILE * fp;
     char * line = NULL;
 	//https://stackoverflow.com/questions/32717269/how-to-read-an-integer-and-a-char-with-read-function-in-c
@@ -85,6 +85,10 @@ struct Shop createAndStockShop()
 	// error handling if empty just close
     if (fp == NULL)
         exit(EXIT_FAILURE);
+	
+	getline(&line, &len, fp);
+	double cashInShop = atof(line);
+	struct Shop shop = { cashInShop };
 
 	// &len and fp - read to end of file
     while ((read = getline(&line, &len, fp)) != -1) {
