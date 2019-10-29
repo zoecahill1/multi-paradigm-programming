@@ -35,37 +35,29 @@ struct Shop {
 struct Customer {
 	char* name;
 	double budget;
-	//memory
 	struct ProductStock shoppingList[10];
 	int index;
 };
 
-void printProduct(struct Product p)
-{
-	printf("PRODUCT NAME: %s \nPRODUCT PRICE: %.2f\n", p.name, p.price);
-	//printf("-------------\n");
-}
-
-void printCustomer(struct Customer c)
-{
-	printf("\n\n-------------------\nCUSTOMER\n---------------------\n");
-	printf("CUSTOMER NAME: %s \nCUSTOMER BUDGET: %.2f\n", c.name, c.budget);
-
-	printf("-------------\n");
-	
-	double total = 0;
-	for(int i = 0; i < c.index; i++)
-	{
-		printProduct(c.shoppingList[i].product);
-		printf("%s ORDERS %d OF ABOVE PRODUCT\n", c.name, c.shoppingList[i].quantity);
-		double cost = c.shoppingList[i].quantity * c.shoppingList[i].product.price; 
-		printf("The cost to %s will be €%.2f\n\n", c.name, cost);
-		
-		total+=cost;
+// looks for characters that will effect formatting
+// refrenced [4]
+const char * stripLine(char *textStr){
+	// looking for \n characters 
+	if (textStr[strlen(textStr)-1] == '\n'){
+		// changes to \0 which has no format effect
+		textStr[strlen(textStr)-1] = '\0';
 	}
 	
-	printf("TOTAL: \t\t%.2f\n", total);
-	printf("REMAINING: \t%.2f\n", c.budget-total);
+	// looking for \r characters
+	if (textStr[strlen(textStr)-1] == '\r'){
+		// if true changes to \0
+		textStr[strlen(textStr)-1] = '\0';
+		
+	}
+	// refrenced [5]
+	while(isspace( (unsigned char)*textStr ) ) textStr++;
+	// retruns properly foratted string
+	return textStr;
 	
 }
 
@@ -134,29 +126,6 @@ struct Shop createAndStockShop()
     }
 	
 	return shop;
-}
-
-
-// looks for characters that will effect formatting
-// refrenced [4]
-const char * stripLine(char *textStr){
-	// looking for \n characters 
-	if (textStr[strlen(textStr)-1] == '\n'){
-		// changes to \0 which has no format effect
-		textStr[strlen(textStr)-1] = '\0';
-	}
-	
-	// looking for \r characters
-	if (textStr[strlen(textStr)-1] == '\r'){
-		// if true changes to \0
-		textStr[strlen(textStr)-1] = '\0';
-		
-	}
-	// refrenced [5]
-	while(isspace( (unsigned char)*textStr ) ) textStr++;
-	// retruns properly foratted string
-	return textStr;
-	
 }
 
 struct Customer createShoppingList(char *csvfile){
@@ -234,19 +203,48 @@ struct Customer createShoppingList(char *csvfile){
 	return customer;
 }
 
+void printProduct(struct Product p)
+{
+	printf("NAME: %s \nPRICE: €%.2f\n", p.name, p.price);
+}
+
+void printCustomer(struct Customer c)
+{
+	printf("\n\n-----------------------------\nCUSTOMER");
+	printf("\n-----------------------------\n");
+	printf("CUSTOMER NAME: %s \nCUSTOMER BUDGET: €%.2f\n", c.name, c.budget);
+	printf("-----------------------------\n");
+	
+	double total = 0;
+	for(int i = 0; i < c.index; i++)
+	{
+		printProduct(c.shoppingList[i].product);
+		printf("%s would like %d of these\n", c.name, c.shoppingList[i].quantity);
+		double cost = c.shoppingList[i].quantity * c.shoppingList[i].product.price; 
+		printf("The cost of this will be €%.2f\n\n", c.name, cost);
+		
+		total+=cost;
+	}
+	
+	printf("TOTAL BILL: \t\t€%.2f\n", total);
+	printf("REMAINING BUDGET: \t€%.2f\n", c.budget-total);
+	
+}
+
 void printShop(struct Shop s)
 {
-	printf("\n\n-----------------\nSHOP\n-------------------\n");
-	printf("Shop has %.2f in cash\n", s.cash);
+	printf("\n\n-----------------------------");
+	printf("\nSHOP\n-----------------------------\n");
+	printf("Shop currently holds €%.2f\n", s.cash);
 	
-	printf("\n-------------------\n");
+	printf("-----------------------------\n");
 	
 	// going into shop and accessing each individual product
 	// [8]
 	for (int i = 0; i < s.index; i++)
 	{
 		printProduct(s.stock[i].product);
-		printf("The shop has %d of the above\n", s.stock[i].quantity);
+		printf("STOCK: %d", s.stock[i].quantity);
 		printf("\n\n");
 	}
 }
@@ -303,18 +301,18 @@ void checkOrder(struct Shop s, struct Customer c){
 				int shopAmt = s.stock[j].quantity;
 				//means stock to fill the order is available 
 				if (orderAmt<shopAmt){
-					printf("Add to order %s\n", shop);
+					printf("%s is in stock\n\n", shop);
 				}
 				//otherwise we don't have the stock to fill order
 				else{
 					// test bread
-					printf("We don't have any %s in stock\n", shop);
+					printf("Sorry but %s is out of stock\n\n", shop);
 				}
 				// loop ends meaning we are at end of list
 			}
 			// test apples
 			if (j == s.index-1 & !stockCheck){
-					printf("Not found%s\n", list);
+					printf("Sorry we don't have any %s in this shop\n", list);
 			}
 			
 		}
@@ -325,31 +323,13 @@ void checkOrder(struct Shop s, struct Customer c){
 
 
 int main(void) 
-{
-	// struct Customer dominic = { "Dominic", 100.0 };
-	//
-	// struct Product coke = { "Can Coke", 1.10 };
-	// struct Product bread = { "Bread", 0.7 };
-	// // printProduct(coke);
-	//
-	// struct ProductStock cokeStock = { coke, 20 };
-	// struct ProductStock breadStock = { bread, 2 };
-	//
-	// everytime this list is called it increments the index which tracks the array length for us
-	// dominic.shoppingList[dominic.index++] = cokeStock;
-	// dominic.shoppingList[dominic.index++] = breadStock;
-	//
-	// printCustomer(dominic);
-	
+{	
 	struct Shop shop = createAndStockShop();
-	printShop(shop);
+	//printShop(shop);
 	
 	struct Customer customer = createShoppingList("order1.csv");
 	//printCustomer(customer);
 	
 	checkOrder(shop, customer);
-	
-// printf("The shop has %d of the product %s\n", cokeStock.quantity, cokeStock.product.name);
-	
     return 0;
 }
