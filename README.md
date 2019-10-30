@@ -36,7 +36,7 @@ approach (in Java). The live mode, and the input files, should have exact same b
 	- shopAssignment.c contains the code to run the shop functionality in the C programming language
 	- stock.csv contains the variables for the shop such as the starting cash, the items in stock and the stock amounts
 	- order1.csv contains the order of 1 customer. It contains their name, budget, items they wish the buy and how many of each they would like
-2. Java Shop - contains the Java version of the shop solution
+2. JavaShop - contains the Java version of the shop solution
 
 ## Running the C Shop
 
@@ -57,3 +57,7 @@ approach (in Java). The live mode, and the input files, should have exact same b
 8. https://www.w3resource.com/c-programming/c-for-loop.php
 9. https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/Decisions.html
 10. https://www.geeksforgeeks.org/menu-driven-program-using-switch-case-c/
+
+### javaShop Package
+1. https://stackoverflow.com/questions/41010532/i-want-to-print-a-formatted-array-in-java
+2. https://stackoverflow.com/questions/10734106/how-to-override-tostring-properly-in-java

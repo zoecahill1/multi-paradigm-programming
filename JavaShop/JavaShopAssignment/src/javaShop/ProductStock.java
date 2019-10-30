@@ -1,3 +1,5 @@
+package javaShop;
+
 public class ProductStock {
 	private Product product;
 	private int quantity;
@@ -18,7 +20,9 @@ public class ProductStock {
 
 	@Override
 	public String toString() {
-		return "ProductStock [product=" + product + ", quantity=" + quantity + "]";
+		System.out.println(product + "\nAmount: "+ quantity + "\n");
+		return "";
+				//product + "\nAmount: " + quantity + "\n\n";
 	}
 	
 	

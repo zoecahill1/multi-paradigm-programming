@@ -1,3 +1,5 @@
+package javaShop;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -57,15 +59,18 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		String ret = "Customer [name=" + name + ", budget=" + budget + ", shoppingList=\n";
+		System.out.println("------------------------\nCUSTOMER\n------------------------\n");
+		System.out.printf("Customer Name: %s \nCustomer Budget: €%.2f", name, budget);
+		System.out.println("\n\n**********SHOPPING LIST**********\n");
 		for (ProductStock productStock : shoppingList) {
-			ret+= productStock.getProduct().getName() + " Quantity: " + productStock.getQuantity() + "\n";
+			
+			System.out.println(productStock.getQuantity() + " x " + productStock.getProduct().getName() + "\n");
 		}
-		return ret + "]";
+		return "";
 	}
 	
 	public static void main(String[] args) {
-		Customer james = new Customer("src/customer.csv");
+		Customer james = new Customer("src/javaShop/customer.csv");
 		System.out.println(james);
 	}
 	
