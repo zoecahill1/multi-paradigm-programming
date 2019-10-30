@@ -39,11 +39,13 @@ struct Customer {
 	int index;
 };
 
+// prints product infomation
 void printproduct(struct product p)
 {
 	printf("NAME: %s \nPRICE: €%.2f\n", p.name, p.price);
 }
 
+// takes in customer struct
 void printCustomer(struct Customer c)
 {
 	printf("\n\n-----------------------------\nCUSTOMER");
@@ -116,7 +118,7 @@ struct Customer createShoppingList(char *csvfile){
 	size_t length = 0;
 	ssize_t read;
 	//[7]
-	char *trackers[3];
+	char *array[3];
 	
 	fp = fopen(csvfile, "r");
 	if (fp == NULL)
@@ -135,28 +137,28 @@ struct Customer createShoppingList(char *csvfile){
 			// assign memory for count
 			char *token = malloc(sizeof(char) * 25);
 			// copies to count after formatting
-			strcpy(token,stripLine(n));
-			//printf(trackers);
+			strcpy(token, stripLine(n));
+			//printf(array);
 			// add all to array
-			trackers[i++]=token; 
+			array[i++] = token; 
 			//read until next null
 			n = strtok(NULL, ",");
 		}
 		
 		// if customer name is returned then do this
 		// seg errror
-		if (strstr(trackers[0],"Name") != NULL|strstr(trackers[0],"name") != NULL)
+		if (strstr(array[0], "Name") != NULL|strstr(array[0], "name") != NULL)
 		{
 			// add name to the customer struct
-			customer.name = trackers[1];
+			customer.name = array[1];
 		}
 		
 		// otherwise if budget is returned do this
 		// seg error
-		else if (strstr(trackers[0],"Budget") != NULL|strstr(trackers[0],"budget") != NULL)
+		else if (strstr(array[0],"Budget") != NULL|strstr(array[0],"budget") != NULL)
 		{
 			// atof casts to float
-			double budget = atof(trackers[1]);
+			double budget = atof(array[1]);
 			// add to customer struct
 			customer.budget = budget;
 		}
@@ -165,18 +167,18 @@ struct Customer createShoppingList(char *csvfile){
 		else
 		{
 			// atoi casts to int. no of items
-			int n = atoi(trackers[2]); 
+			int items = atoi( array[2] ); 
 			// atof casts to float
-			double cost = atof(trackers[1]);
+			double price = atof( array[1] );
 			// instance of product with name from array
-			struct product product = { trackers[0], cost };
+			struct product product = { array[0], price };
 			// add product and amount to list
-			struct productStock shopList = { product, n };
+			struct productStock shoppingList = { product, items };
 			// update list and update index
-			customer.shoppingList[customer.index++] = shopList;
+			customer.shoppingList[customer.index++] = shoppingList;
 		}
 	}	
-
+	// returns once loop is finished
 	return customer;
 }
 
@@ -188,11 +190,13 @@ struct Shop createAndStockShop()
 	struct Shop shop = { 0 };
 	FILE * fp;
 	char * line = NULL;
+	
 	//refrenced [2]
 	size_t len = 0;
 	ssize_t read;
 
 	fp = fopen("stock.csv", "r");
+	
 	// error handling if empty just close
 	if (fp == NULL) 
 			exit(EXIT_FAILURE);
@@ -200,43 +204,41 @@ struct Shop createAndStockShop()
 	// &len and fp - read to end of file
 	while ((read = getline(&line, &len, fp)) != -1) {
 		// checking that cash has a value
-		//  refrenced [3]	
-	if (strstr(line,"cash") != NULL|strstr(line,"Cash") != NULL){
-		//getting name and amount
-		//INDENTS
-		char *n = strtok(line, ",");
-		char *c = strtok(NULL, ",");
-		// atof converts string to float to get rid of /n
-		double cash = atof(c);
-		// specifying the value to shop instance init above
-		shop.cash = cash;
-	}
+		//  refrenced [3]		
+		if (strstr(line, "cash") != NULL|strstr(line, "Cash") != NULL){
+			//getting name and amount
+			char *n = strtok(line, ",");
+			char *c = strtok(NULL, ",");
+			// atof converts string to float to get rid of /n
+			double cash = atof(c);
+			// specifying the value to shop instance init above
+			shop.cash = cash;
+		}
 	
-	else {
-		// getting name, price and quantity - "," is specifying the break
-		char *n = strtok(line, ",");
-		char *p = strtok(NULL, ",");
-		char *q = strtok(NULL, ",");
+		else {
+			// getting name, price and quantity - "," is specifying the break
+			char *n = strtok(line, ",");
+			char *p = strtok(NULL, ",");
+			char *q = strtok(NULL, ",");
 		
-		// a carriage return is implict /n at the end of the csv row affects quantity
-		// atoi converts string to int
-		// atof converts strinf to float
-		int quantity = atoi(q);
-		double price = atof(p);
+			// a carriage return is implict /n at the end of the csv row affects quantity
+			// atoi converts string to int
+			// atof converts strinf to float
+			int quantity = atoi(q);
+			double price = atof(p);
 		
-		// allocates memory atoi and atof did this for q and p
-		char *name = malloc(sizeof(char) * 50);
-		// need seperate variable for this otherwise its overwritten
-		strcpy(name, n);
+			// allocates memory atoi and atof did this for q and p
+			char *name = malloc(sizeof(char) * 50);
+			// need seperate variable for this otherwise its overwritten
+			strcpy(name, n);
 		
-		// reads in file line by line then adds to product variable
-		// then add both to shop
-		struct product product = { name, price };
-		struct productStock stockItem = { product, quantity };
-		// shop at index[0] is incremented and also updated to the amount of stockItem
-		shop.stock[shop.index++] = stockItem;
-		// printf("NAME OF product %s PRICE %.2f QUANTITY %d\n", name, price, quantity);
-	}
+			// reads in file line by line then adds to product variable
+			// then add both to shop
+			struct product product = { name, price };
+			struct productStock stockItem = { product, quantity };
+			// shop at index[0] is incremented and also updated to the amount of stockItem
+			shop.stock[shop.index++] = stockItem;
+		}
 	
 	}
 	
@@ -245,62 +247,71 @@ struct Shop createAndStockShop()
 
 struct Shop checkOrder(struct Shop s, struct Customer c){
 
-	double total=0;
+	// totalBill will track the bill amount of the products we are are to fill from shoppinglist
+	double totalBill = 0;
 	
 	printf("\n\n-----------------------------");
 	printf("\nORDER SUMMARY\n-----------------------------\n");
 	
+	// for loop goes through shopping list
 	for (int i=0; i<c.index; i++){
 		// ref [9]
 		short stockCheck = 0;
 		char *list = malloc(sizeof(char) * 25);
-		strcpy(list,  c.shoppingList[i].product.name);
+		strcpy(list, c.shoppingList[i].product.name);
 		
+		// this loop looks at the shop stock
 		for (int j=0; j < s.index; j++){
 			
 			char *shop = malloc(sizeof(char) * 25);
 			strcpy(shop, s.stock[j].product.name);
 			
-			//if to check if shop has item or not
-			// if it is then
+			// if to check if shop has item or not
+			// if it is then:
 			if (strstr(list, shop) != NULL){
-				//bool value
+				
 				stockCheck=1;
 				printf("This shop has - "); 
 				
-				//then check stock level
-				
+				// then check stock level
+				// getting stock levels and prices
 				int orderAmt = c.shoppingList[i].quantity;
 				int shopAmt = s.stock[j].quantity;
 				double price = s.stock[j].product.price;
-				//means stock to fill the order is available 
 				
+				// means stock to fill the order is available 
 				if (orderAmt<shopAmt){
 					printf("%i %s for €%.2f\n\n",orderAmt, shop, price);
+					// take away shopping list amount from shop stock
 					s.stock[j].quantity-=orderAmt;
-					s.cash+=(s.stock[j].product.price*orderAmt);
-					
-					total+=(orderAmt*price);
+					// add total bill to shops cash to increase it
+					s.cash += (s.stock[j].product.price * orderAmt);
+					// add to total bill which keeps track of the order
+					totalBill += (orderAmt * price);
 				}
+				
 				//otherwise we don't have the stock to fill order
 				else {
 					// test bread
+					// will summarise the order and tell the customer how much of the item we are missing
 					printf("%i %s for €%.2f but stock is low so we are missing %i %s \n\n",orderAmt, shop, price, orderAmt-shopAmt, shop);
-					s.stock[j].quantity-=shopAmt;
-					s.cash+=(s.stock[j].product.price*shopAmt);
-					total+=(shopAmt*price);
+					// take away stock that we do have
+					s.stock[j].quantity -= shopAmt;
+					s.cash += (s.stock[j].product.price * shopAmt);
+					totalBill += (shopAmt * price);
 				}
-				// loop ends meaning we are at end of list
 			}
 			// test apples
+			// loop ends meaning we are at end of list
 			if (j == s.index-1 & !stockCheck) {
 				printf("Sorry we don't have any %s in this shop\n\n", list);
 			}
 		}
 	}
-	printf("\nYour total bill is €%4.2f\n",total);
-	printf("You have €%4.2f left in your budget",c.budget-total);
-
+	// gives total bill and remaining budget of customer from csv
+	printf("\nYour total bill is €%4.2f\n", totalBill);
+	printf("You have €%4.2f left in your budget", c.budget - totalBill);
+	// returns shop with altered amounts
 	return s;
 }
 
@@ -329,17 +340,17 @@ int main(void)
 {
 
 	struct Shop shop = createAndStockShop();
-	//printShop(shop);
+	printShop(shop);
 	
 	struct Customer customer = createShoppingList("order1.csv");
 	//printCustomer(customer);
 	
 	shop = checkOrder(shop,customer);
-	printShop(shop);
+	//printShop(shop);
 	
 	updateShop(shop,"stock.csv");
 	// updateShop will keep the shops state consistent
-	printf("--------------------UPDATED SHOP--------------------");
+	//printf("\n\n*****************UPDATED SHOP*****************");
 	printShop(shop);
 	
   return 0;
