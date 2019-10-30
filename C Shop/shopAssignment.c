@@ -336,13 +336,13 @@ void updateShop(struct Shop s,char * filename){
 	return;
 }
 
+// gets user input for choice
 int input()
 {
 	int number;
 	scanf("%d", &number);
 	return (number);
 }
-
 
 int main(void) 
 {
@@ -351,7 +351,9 @@ int main(void)
 	struct Customer customer = createShoppingList("order1.csv");
 	int choice;
 	
+	// refrenced [10]
 	do {
+		// menu options
 		printf("\n*****************THE SHOP*****************\n");
 		printf("\n1. View the Shop");
 		printf("\n2. View the current customer's details and shopping list");
@@ -388,23 +390,6 @@ int main(void)
 	}
 	
 	while (choice != 5);
-
-
-	//struct Shop shop = createAndStockShop();
-	//printShop(shop);
 	
-	//struct Customer customer = createShoppingList("order1.csv");
-	//printCustomer(customer);
-	
-	//shop = checkOrder(shop,customer);
-	//printShop(shop);
-	
-	//updateShop(shop,"stock.csv");
-	// updateShop will keep the shops state consistent
-	//printf("\n\n*****************UPDATED SHOP*****************\n");
-	//printShop(shop);
-	
-  return 0;
+	return 0;
 }
-
-
