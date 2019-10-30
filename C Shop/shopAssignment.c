@@ -42,16 +42,16 @@ struct Customer {
 // prints product infomation
 void printproduct(struct product p)
 {
-	printf("NAME: %s \nPRICE: €%.2f\n", p.name, p.price);
+	printf("NAME: \t%s \nPRICE: \t€%.2f\n", p.name, p.price);
 }
 
 // takes in customer struct
 void printCustomer(struct Customer c)
 {
-	printf("\n\n-----------------------------\nCUSTOMER");
-	printf("\n-----------------------------\n");
-	printf("CUSTOMER NAME: %s \nCUSTOMER BUDGET: €%.2f\n", c.name, c.budget);
-	printf("-----------------------------\n");
+	printf("\n\n-----------------------------------\nCUSTOMER");
+	printf("\n-----------------------------------\n");
+	printf("CUSTOMER NAME: \t\t%s \nCUSTOMER BUDGET: \t€%.2f\n", c.name, c.budget);
+	printf("-----------------------------------\n");
 	
 	double total = 0;
 	for(int i = 0; i < c.index; i++)
@@ -66,24 +66,24 @@ void printCustomer(struct Customer c)
 	}
 
 	printf("TOTAL BILL: \t\t€%.2f\n", total);
-	printf("REMAINING BUDGET: \t€%.2f\n",c.budget-total);
+	printf("REMAINING BUDGET: \t€%.2f\n\n",c.budget-total);
 }
 
 void printShop(struct Shop s)
 {
 	
-	printf("\n\n-----------------------------");
-	printf("\nWELCOME TO THE SHOP\n-----------------------------\n");
+	printf("\n\n-----------------------------------");
+	printf("\nWELCOME TO THE SHOP\n-----------------------------------\n");
 	printf("Shop currently holds €%.2f\n", s.cash);
 	
-	printf("-----------------------------\n");
+	printf("-----------------------------------\n");
 	
 	// going into shop and accessing each individual product
 	// [8]
 	for (int i = 0; i < s.index; i++)
 	{
 		printproduct(s.stock[i].product);
-		printf("STOCK: %d", s.stock[i].quantity);
+		printf("STOCK: \t%d", s.stock[i].quantity);
 		printf("\n\n");
 	}
 }
@@ -250,8 +250,8 @@ struct Shop checkOrder(struct Shop s, struct Customer c){
 	// totalBill will track the bill amount of the products we are are to fill from shoppinglist
 	double totalBill = 0;
 	
-	printf("\n\n-----------------------------");
-	printf("\nORDER SUMMARY\n-----------------------------\n");
+	printf("\n\n-----------------------------------");
+	printf("\nORDER SUMMARY\n-----------------------------------\n");
 	
 	// for loop goes through shopping list
 	for (int i=0; i<c.index; i++){
@@ -271,7 +271,7 @@ struct Shop checkOrder(struct Shop s, struct Customer c){
 			if (strstr(list, shop) != NULL){
 				
 				stockCheck=1;
-				printf("This shop has - "); 
+				printf("This shop has: "); 
 				
 				// then check stock level
 				// getting stock levels and prices
@@ -294,7 +294,8 @@ struct Shop checkOrder(struct Shop s, struct Customer c){
 				else {
 					// test bread
 					// will summarise the order and tell the customer how much of the item we are missing
-					printf("%i %s for €%.2f but stock is low so we are missing %i %s \n\n",orderAmt, shop, price, orderAmt-shopAmt, shop);
+					printf("%s but stock is low and we only have %i of the %i %s that you wanted\n", shop, shopAmt, orderAmt, shop);
+					printf("We will add what we have to your order: %i %s for €%.2f (missing %i %s)\n\n", shopAmt, shop, price, orderAmt-shopAmt, shop);
 					// take away stock that we do have
 					s.stock[j].quantity -= shopAmt;
 					s.cash += (s.stock[j].product.price * shopAmt);
@@ -310,7 +311,7 @@ struct Shop checkOrder(struct Shop s, struct Customer c){
 	}
 	// gives total bill and remaining budget of customer from csv
 	printf("\nYour total bill is €%4.2f\n", totalBill);
-	printf("You have €%4.2f left in your budget", c.budget - totalBill);
+	printf("You will have €%4.2f left in your budget\n\n", c.budget - totalBill);
 	// returns shop with altered amounts
 	return s;
 }
@@ -335,23 +336,75 @@ void updateShop(struct Shop s,char * filename){
 	return;
 }
 
+int input()
+{
+	int number;
+	scanf("%d", &number);
+	return (number);
+}
+
 
 int main(void) 
 {
-
+	// init instance of shop and customer order from csv
 	struct Shop shop = createAndStockShop();
-	printShop(shop);
-	
 	struct Customer customer = createShoppingList("order1.csv");
-	//printCustomer(customer);
+	int choice;
 	
-	shop = checkOrder(shop,customer);
+	do {
+		printf("\n*****************THE SHOP*****************\n");
+		printf("\n1. View the Shop");
+		printf("\n2. View the current customer's details and shopping list");
+		printf("\n3. Check stock against current customers shopping list");
+		printf("\n4. Process order");
+		printf("\n5. To exit program\n");
+		printf("\nPlease enter your choice: ");
+		choice = input();
+
+		switch (choice)
+		{
+			case 1:
+					printShop(shop);
+					break;
+			case 2:
+					printCustomer(customer);
+					break;
+			case 3:
+					shop = checkOrder(shop,customer);
+					break;
+			case 4:
+					shop = checkOrder(shop,customer);
+					// updateShop will keep the shops state consistent
+					updateShop(shop,"stock.csv");
+					printf("\n\n*****************UPDATED SHOP*****************\n");
+					printShop(shop);
+					break;
+			case 5:
+					return 0;
+			default:	
+					printf("\nInvalid option, please try again!\n");
+					break;
+		}
+	}
+	
+	while (choice != 5);
+
+
+	//struct Shop shop = createAndStockShop();
 	//printShop(shop);
 	
-	updateShop(shop,"stock.csv");
+	//struct Customer customer = createShoppingList("order1.csv");
+	//printCustomer(customer);
+	
+	//shop = checkOrder(shop,customer);
+	//printShop(shop);
+	
+	//updateShop(shop,"stock.csv");
 	// updateShop will keep the shops state consistent
-	//printf("\n\n*****************UPDATED SHOP*****************");
-	printShop(shop);
+	//printf("\n\n*****************UPDATED SHOP*****************\n");
+	//printShop(shop);
 	
   return 0;
 }
+
+
