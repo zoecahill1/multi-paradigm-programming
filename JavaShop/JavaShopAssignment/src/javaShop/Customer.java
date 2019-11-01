@@ -56,24 +56,29 @@ public class Customer {
 		return shoppingList;
 	}
 
-
-	@Override
-	public String toString() {
+	public static void printCustomer(Customer customer) {
 		System.out.println("------------------------\nCUSTOMER\n------------------------\n");
-		System.out.printf("Customer Name: %s \nCustomer Budget: €%.2f", name, budget);
+		System.out.printf("Customer Name: %s \nCustomer Budget: €%.2f", customer.getName(), customer.getBudget());
 		System.out.println("\n\n**********SHOPPING LIST**********\n");
-		for (ProductStock productStock : shoppingList) {
+		for (ProductStock productStock : customer.getShoppingList()) {
 			
 			System.out.println(productStock.getQuantity() + " x " + productStock.getProduct().getName() + "\n");
 		}
-		return "";
-	}
+		}
+
 	
-	public static void main(String[] args) {
+//	public static void main(String[] args) {
+//		Customer james = new Customer("src/javaShop/customer.csv");
+//		printCustomer(james);
+//		//System.out.println(james);
+//	}
+//	
+	
+	public static void createCustomer() {
 		Customer james = new Customer("src/javaShop/customer.csv");
-		System.out.println(james);
+		printCustomer(james);
+		
 	}
-	
 	
 
 }

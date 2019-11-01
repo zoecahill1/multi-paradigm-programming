@@ -55,27 +55,72 @@ public class Shop {
 	public double getCash() {
 		return cash;
 	}
+	
+	public String searchProd(String product){
+		// init line var with default message
+		String line="We do not stock: " + product;
+		// init bool to track positive results
+		boolean found = false;
+		
+		// serach through stock for product
+		for (int i=0; i<this.stock.size(); i++) {
+			
+			ProductStock item = this.stock.get(i);
+			// equalsIgnoreCase if they are of the same length, and corresponding characters in the two strings are equal ignoring case. [3]
+			if (item.getProduct().getName().equalsIgnoreCase(product)){
+				// set bool to true if we have a match
+				found = true;
+				// get matching details
+				String productName = item.getProduct().getName();
+				int productAmt = item.getQuantity();
+				double productPrice = item.getProduct().getPrice();
+				
+				// display result
+				//line = "Name: " + productName + "\nPrice: " + productPrice + "\nStock: " + productAmt;
+				line = String.format("The shop has %d x %s at €%.2f in stock",productAmt,productName, productPrice);
+				//System.out.println(line); String.format("%d %d", a, c);
+			}
+		}
+		
+		if (found == true) {
+			return line;
+		}
+		return line;
+	}
 
 	public ArrayList<ProductStock> getStock() {
 		return stock;
 	}
-
-	@Override
-	// ref [2]
-	public String toString() {
-		System.out.println("------------------------\nWELCOME TO THE SHOP\n------------------------\n");
-		System.out.printf("This shop currently holds €%.2f \n\n", cash);
-		System.out.println(stock);
+	
+	public static void printShop(Shop shop) {
 		
-		return "";
-		//return "Shop cash=" + cash + "\n\n" + stock;
+	System.out.println("------------------------\nWELCOME TO THE SHOP\n------------------------\n");
+	System.out.printf("This shop currently holds €%.2f \n\n", shop.getCash());
+	System.out.println(shop.getStock());	
 	}
 
-	public static void main(String[] args) {
-		Shop shop = new Shop("src/javaShop/stock.csv");
-		System.out.println(shop);
-		//Customer james = new Customer("src/javaShop/customer.csv");
-		//System.out.println(james);
+
+
+		  
+		  
+		  //public static void main(String[] args) {
+//		Shop shop = new Shop("src/javaShop/stock.csv");
+//		String result = shop.searchProd("Big Bags");
+//		System.out.println(result);
+//		//System.out.println(shop);
+//		//printShop(shop);
+//		//Customer james = new Customer("src/javaShop/customer.csv");
+//		//System.out.println(james);
+
+
+
+	public static void createShop() {
+	    Shop shop = new Shop("src/javaShop/stock.csv");
+	    printShop(shop);
+	    //Customer cust = new Customer("src/javaShop/customer.csv");
+	    //double budget = cust.getBudget();
+	    //String name = cust.getName();
+		
 	}
 
 }
