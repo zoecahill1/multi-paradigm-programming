@@ -17,12 +17,15 @@ public class ProductStock {
 	public int getQuantity() {
 		return quantity;
 	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
 	@Override
 	public String toString() {
 		System.out.println(product + "\nAmount: "+ quantity + "\n");
 		return "";
-				//product + "\nAmount: " + quantity + "\n\n";
 	}
 	
 	

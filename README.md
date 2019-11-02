@@ -61,3 +61,6 @@ approach (in Java). The live mode, and the input files, should have exact same b
 ### javaShop Package
 1. https://stackoverflow.com/questions/41010532/i-want-to-print-a-formatted-array-in-java
 2. https://stackoverflow.com/questions/10734106/how-to-override-tostring-properly-in-java
+3. https://www.tutorialspoint.com/java/java_string_equalsignorecase.html
+4. https://stackoverflow.com/questions/28223514/not-sure-why-my-code-is-giving-me-an-illegal-format-conversion-exception-error
+5. https://www.w3schools.com/jsref/jsref_split.asp
