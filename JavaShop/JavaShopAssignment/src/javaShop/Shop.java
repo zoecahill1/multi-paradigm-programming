@@ -10,6 +10,9 @@ import java.util.List;
 
 public class Shop {
 
+	static ArrayList<ProductStock> orderList;
+	static double orderTotal = 0;
+
 	private double cash;
 	private ArrayList<ProductStock> stock;
 
@@ -54,14 +57,20 @@ public class Shop {
 	public double getCash() {
 		return cash;
 	}
+	
+	public void setCash(double cash) {
+		this.cash = cash;
+	}
+
 
 	public String searchProduct(String product, int orderAmt){
 		// init line var with nothing
 
+		
 		int missingStock=0;
 		String missing="";// populate if stock is short
 		// init var line containing default value
-		String line = "false";
+		String line = "\n";
 		
 		// serach through stock for product
 		for (int i = 0; i < this.stock.size(); i++) {
@@ -93,6 +102,7 @@ public class Shop {
 				}
 				
 				double total = orderAmt * productPrice;
+				orderTotal = orderTotal + total;
 				// remove the order from shop stock
 				item.setQuantity(productAmt-orderAmt);
 				// retruns values in csv format which we can easily split later
@@ -107,6 +117,8 @@ public class Shop {
 	}
 
 	public static void printProduct(String product) {
+		
+		orderList = new ArrayList<>();
 		// split products into array [5]
 		String[] products = product.split(",");
 		
@@ -120,6 +132,16 @@ public class Shop {
 			if (products.length <= 5) {
 				//[4]
 				System.out.printf("***Order Check****\n%s %s costing %s \nTotal: %s",products[1], products[0], products[2] , products[3]);
+				
+				
+				String price = products[2].substring(1);
+				
+				double cost = Double.parseDouble(price);
+				Product p = new Product(products[0], cost);
+				int q = Integer.parseInt(products[1]);
+				ProductStock s = new ProductStock(p, q);
+				orderList.add(s);
+				//System.out.println(orderList);
 			}
 			// otherwise there is so we print how many items were missing
 			else{
@@ -139,6 +161,16 @@ public class Shop {
 		System.out.println(shop.getStock());
 	}
 	
+	public static void printOrderList(ArrayList<ProductStock> order) {
+
+		for (ProductStock productStock : order) {
+
+			System.out.println(productStock.getQuantity());
+
+			System.out.println(productStock.getProduct().getName());
+
+		}
+	}
 	
 
 //public static void main(String[] args) {

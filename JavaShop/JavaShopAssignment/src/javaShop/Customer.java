@@ -66,15 +66,15 @@ public class Customer {
 
 //	public static void main(String[] args) {
 //		Customer james = new Customer("src/javaShop/customer.csv");
-//		printCustomer(james);
 //		//System.out.println(james);
+//		printCustomer(james);
+//
+////		ArrayList<ProductStock> list = james.getShoppingList();
+////		System.out.println("Customer name: " + james.getName()); 
+////		for (ProductStock productStock : list) {
+////			System.out.println("Item Name:" + productStock.getProduct().getName());
+////			System.out.println("Item Quantity:" + productStock.getQuantity());
+////		}
 //	}
-//	
-
-	public static void createCustomer() {
-		Customer james = new Customer("src/javaShop/customer.csv");
-		printCustomer(james);
-
-	}
 
 }
