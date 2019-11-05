@@ -10,14 +10,14 @@ import com.opencsv.CSVWriter;
 
 
 public class Order {
-	static String csv = "";
 	public Order(Shop shop, Customer customer) {
 
 		// private ArrayList<ProductStock> s;
 		double budget = customer.getBudget();
 		String name = customer.getName();
+		String csv = "";
 
-		System.out.printf("\nNAME: %s \nBUDGET:  €%.2f\n", name, budget);
+		System.out.printf("\nName: %s \nBudget:  €%.2f\n", name, budget);
 		ArrayList<ProductStock> shoppingList = customer.getShoppingList();
 
 		for (ProductStock productStock : shoppingList) {
@@ -36,9 +36,9 @@ public class Order {
 		System.out.printf("Your remaining budget is: €%.2f\n", budgetCheck);
 
 		if (budgetCheck < 0) {
-			System.out.println("You have don't have enough money for this...Sorry!");
+			System.out.println("\nYou have don't have enough money for this...Sorry!");
 		} else {
-			System.out.println("Lets buy some stuff");
+			System.out.println("\nYou have enough in your budget for this...lets buy some stuff!");
 			String ans;
 			Scanner keyboard;
 			keyboard = new Scanner(System.in);
@@ -69,19 +69,19 @@ public class Order {
 		double budget = customer.getBudget();
 		String name = customer.getName();
 
-		System.out.printf("\nNAME: %s \nBUDGET:  €%.2f\n", name, budget);
-		ArrayList<ProductStock> shoppingList = customer.getShoppingList();
+		System.out.printf("\nName: %s \nBudget:  €%.2f\n", name, budget);
+		//ArrayList<ProductStock> shoppingList = customer.getShoppingList();
 
-		for (ProductStock productStock : shoppingList) {
-
-			int shoppingListAmt = productStock.getQuantity();
-
-			String shoppingListItem = productStock.getProduct().getName();
-
-			String item = shop.processProduct(shoppingListItem, shoppingListAmt);
-			Shop.printProduct(item);
-
-		}
+//		for (ProductStock productStock : shoppingList) {
+//
+//			int shoppingListAmt = productStock.getQuantity();
+//
+//			String shoppingListItem = productStock.getProduct().getName();
+//
+//			String item = shop.processProduct(shoppingListItem, shoppingListAmt);
+//			Shop.printProduct(item);
+//
+//		}
 		System.out.printf("\n\nYour total order comes to: €%.2f\n", Shop.orderTotal);
 
 		double budgetCheck = (budget - Shop.orderTotal);
@@ -121,14 +121,14 @@ public class Order {
 		    return 0;
 		  }
 	
-	  public static int createNewOrder(Shop shop) {
+	  public static String createNewOrder(Shop shop) {
+		 String csvName = "";
 		  try {
 
 			  String timestamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
 			  
-			  String csv = "src/javaShop/" + timestamp + ".csv";
-			  
-			  CSVWriter writer = new CSVWriter(new FileWriter(csv),
+			  csvName = "src/javaShop/" + timestamp + ".csv";
+			  CSVWriter writer = new CSVWriter(new FileWriter(csvName),
 				    CSVWriter.DEFAULT_SEPARATOR,
 				    CSVWriter.NO_QUOTE_CHARACTER,
 				    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
@@ -140,19 +140,19 @@ public class Order {
 		  Scanner scanner = new Scanner( System.in );
 		  Scanner intscanner = new Scanner( System.in );
 		  String name;
-		  System.out.print("Enter name: ");
+		  System.out.print("Please enter your name: ");
 		  name = scanner.nextLine( );
 		  
 		  // taking a string instead of na int come back to this
 		  String budget;
-		  System.out.print("Enter your budget: ");
+		  System.out.print("Please enter your budget: ");
 		  budget = scanner.nextLine( );
 		  
 		  
 		  data.add(new String[] {name, budget});
 		  
 		  int length;
-		  System.out.println("How many items would you like to buy: ");
+		  System.out.println("How many items would you like to buy today: ");
 		  length = intscanner.nextInt();
 
 		for(int i=0;i<length;i++){
@@ -176,12 +176,11 @@ public class Order {
 		  }
 		  catch (Exception e){
 			  e.printStackTrace();
-		      return -1;
+		      return "error";
 	  }
-		  return 0;
+		   return csvName;
 		  }
 	  
-
 
 //	public static void main(String[] args) {
 //

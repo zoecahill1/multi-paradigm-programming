@@ -65,4 +65,10 @@ approach (in Java). The live mode, and the input files, should have exact same b
 4. https://stackoverflow.com/questions/28223514/not-sure-why-my-code-is-giving-me-an-illegal-format-conversion-exception-error
 5. https://www.w3schools.com/jsref/jsref_split.asp
 6. https://stackoverflow.com/questions/658953/if-statement-with-string-comparison-fails
-7. https://stackoverflow.com/questions/46602852/how-to-format-and-to-indent-correctly-some-java-code-in-eclipse
+7. 
+https://stackoverflow.com/questions/46602852/how-to-format-and-to-indent-correctly-some-java-code-in-eclipse
+8. https://stackoverflow.com/questions/41223421/writing-per-line-new-csv-file-java
+9. https://stackoverflow.com/questions/23068676/how-to-get-current-timestamp-in-string-format-in-java-yyyy-mm-dd-hh-mm-ss
+10. https://stackoverflow.com/questions/13969254/unwanted-double-quotes-in-generated-csv-file
+11. https://stackoverflow.com/questions/3280353/how-to-import-a-jar-in-eclipse
+12. https://stackoverflow.com/questions/30821834/problems-with-launching-opencsv
