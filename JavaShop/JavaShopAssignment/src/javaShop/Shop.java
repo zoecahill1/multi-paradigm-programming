@@ -149,7 +149,9 @@ public class Shop {
 					// more things are ordered than available
 					missingStock = orderAmt - productAmt;
 					// then the we will set the order amount to what we have
-					orderAmt = productAmt - orderAmt;
+					// GIVING MINUS VALUES CHECK THIS
+					orderAmt = productAmt - missingStock;
+					
 				}
 
 				// if we can fill the order we will add it
@@ -184,7 +186,8 @@ public class Shop {
 		// if only one this is the default value we set earlier meanig there was no
 		// match
 		if (products.length == 1) {
-			System.out.println("Product not found");
+			System.out.println("\n\n****Order Check****");
+			System.out.printf("Product not found\n");
 		}
 
 		// otherwise check length, if less than 5 means there was no unfilled stock
@@ -192,30 +195,19 @@ public class Shop {
 		else {
 			if (products.length <= 5) {
 				// [4]
-				System.out.printf("***Order Check****\n%s %s costing %s \nTotal: %s", products[1], products[0],
+				System.out.printf("****Order Check****\n%s %s costing %s \nTotal: %s", products[1], products[0],
 						products[2], products[3]);
 
-//				
-//				String price = products[2].substring(1);
-//				
-//				double cost = Double.parseDouble(price);
-//				p = new Product(products[0], cost);
-//				int q = Integer.parseInt(products[1]);
-//				s = new ProductStock(p, q);
-//				
-//				orderList.add(s);
-//				//System.out.println(orderList);
 			}
 
 			// otherwise there is so we print how many items were missing
 			else {
 
-				System.out.printf("***Order Check****\n%s %s costing %s but we are missing %s \nTotal: %s", products[1],
+				System.out.printf("****Order Check****\n%s %s costing %s but we are missing %s \nTotal: %s", products[1],
 						products[0], products[2], products[4], products[3]);
 			}
 
 		}
-		// orderList.add(s);
 
 	}
 
