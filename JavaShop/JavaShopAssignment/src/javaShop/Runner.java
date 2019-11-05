@@ -12,6 +12,7 @@ public class Runner {
 		// Shop.printShop(shop);
 		// Customer.printCustomer(customer);
 		new Order(shop, customer);
+		//Customer.printCustomer(customer);
 
 //		// input methods to search a product name and amount
 //		Scanner scanner = new Scanner( System.in );

@@ -46,6 +46,10 @@ public class Customer {
 		return name;
 	}
 
+	public void setBudget(double budget) {
+		this.budget = budget;
+	}
+	
 	public double getBudget() {
 		return budget;
 	}

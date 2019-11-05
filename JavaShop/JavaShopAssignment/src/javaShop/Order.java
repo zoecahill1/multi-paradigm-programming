@@ -84,10 +84,13 @@ public class Order {
 
 		double budgetCheck = (budget - Shop.orderTotal);
 		System.out.printf("Your remaining budget is: €%.2f\n", budgetCheck);
-		// set new budget here
+		
+		customer.setBudget(budgetCheck);
 
 		double money = shop.getCash();
 		shop.setCash(money + Shop.orderTotal);
+		
+		
 
 	}
 
