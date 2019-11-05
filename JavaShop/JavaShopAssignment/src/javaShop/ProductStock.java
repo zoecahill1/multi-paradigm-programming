@@ -25,7 +25,7 @@ public class ProductStock {
 	@Override
 	public String toString() {
 		//System.out.println(product + "\nAmount: "+ quantity + "\n");
-		System.out.println(getProduct() + "\nAmount: "+ getQuantity() + "\n");
+		System.out.println(getProduct() + "\nAmount: " + getQuantity() + "\n");
 		return "";
 	}
 	

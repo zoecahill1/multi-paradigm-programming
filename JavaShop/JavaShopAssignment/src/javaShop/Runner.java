@@ -1,16 +1,18 @@
 package javaShop;
+
 import java.util.Scanner;
 import java.util.jar.Attributes.Name;
 
 public class Runner {
 
 	public static void main(String[] args) {
-		//Customer.createCustomer();
+		// Customer.createCustomer();
 		Customer customer = new Customer("src/javaShop/customer.csv");
 		Shop shop = new Shop("src/javaShop/stock.csv");
-		//Shop.printShop(shop);
-		//Customer.printCustomer(customer);
-		
+		// Shop.printShop(shop);
+		// Customer.printCustomer(customer);
+		new Order(shop, customer);
+
 //		// input methods to search a product name and amount
 //		Scanner scanner = new Scanner( System.in );
 //		String PName;
@@ -24,7 +26,6 @@ public class Runner {
 //		//String search = shop.searchProduct("Coke Can", 1);
 //		String search = shop.searchProduct(PName, Amt);
 //		Shop.printProduct(search);
-
 
 	}
 
