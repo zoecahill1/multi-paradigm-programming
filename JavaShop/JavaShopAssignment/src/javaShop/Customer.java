@@ -45,7 +45,7 @@ public class Customer {
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -53,7 +53,7 @@ public class Customer {
 	public void setBudget(double budget) {
 		this.budget = budget;
 	}
-	
+
 	public double getBudget() {
 		return budget;
 	}
@@ -62,27 +62,16 @@ public class Customer {
 		return shoppingList;
 	}
 
+	// method to print nicely formatted customer's shopping list
 	public static void printCustomer(Customer customer) {
 		System.out.println("------------------------\nCUSTOMER\n------------------------\n");
+
 		System.out.printf("Customer Name: %s \nCustomer Budget: €%.2f", customer.getName(), customer.getBudget());
 		System.out.println("\n\n**********SHOPPING LIST**********\n");
+		// loops through shopping list
 		for (ProductStock productStock : customer.getShoppingList()) {
-
 			System.out.println(productStock.getQuantity() + " x " + productStock.getProduct().getName() + "\n");
 		}
 	}
-
-//	public static void main(String[] args) {
-//		Customer james = new Customer("src/javaShop/customer.csv");
-//		//System.out.println(james);
-//		printCustomer(james);
-//
-////		ArrayList<ProductStock> list = james.getShoppingList();
-////		System.out.println("Customer name: " + james.getName()); 
-////		for (ProductStock productStock : list) {
-////			System.out.println("Item Name:" + productStock.getProduct().getName());
-////			System.out.println("Item Quantity:" + productStock.getQuantity());
-////		}
-//	}
 
 }

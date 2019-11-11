@@ -10,6 +10,7 @@ import java.util.List;
 
 public class Shop {
 
+	// TODO getter and setter
 	static double orderTotal = 0;
 
 	private double cash;
@@ -22,16 +23,11 @@ public class Shop {
 
 		try {
 			lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
-			// System.out.println(lines.get(0));
-
 			String[] vals = lines.get(0).split(",");
 			cash = Double.parseDouble(vals[0]);
-			// cash = Double.parseDouble(lines.get(0));
-			// i am removing at index 0 as it is the only one treated differently
 			lines.remove(0);
 
 			for (String line : lines) {
-				// System.out.println(line);
 				String[] arr = line.split(",");
 				String name = arr[0];
 
@@ -62,10 +58,10 @@ public class Shop {
 	}
 
 	public String searchProduct(String product, int orderAmt) {
-		// init line var with nothing
-
+		// defualt init value
 		int missingStock = 0;
-		String missing = "";// populate if stock is short
+		// will remain blank unless stock is missing
+		String missing = "";
 		// init var line containing default value
 		String line = "\n";
 
@@ -77,17 +73,12 @@ public class Shop {
 			// in the two strings are equal ignoring case. [3]
 			if (item.getProduct().getName().equalsIgnoreCase(product)) {
 
-				// line="";
 				String productName = item.getProduct().getName();
 				int productAmt = item.getQuantity();
 				double productPrice = item.getProduct().getPrice();
 
 				// display result
-				// line = "Name: " + productName + "\nPrice: " + productPrice + "\nStock: " +
-				// productAmt;
 				System.out.println(line);
-				// line = String.format("The shop has %d x %s at €%.2f in
-				// stock",productAmt,productName, productPrice);
 
 				// if there are more items on the order that we have available
 				if (orderAmt > productAmt) {
@@ -101,12 +92,10 @@ public class Shop {
 				if (missingStock > 0) {
 					missing = "," + missingStock;
 				}
-
+				// total for 1 product
 				double total = orderAmt * productPrice;
+				// total customers bill
 				orderTotal = orderTotal + total;
-				// remove the order from shop stock
-				// int newStock = productAmt-orderAmt;
-				// item.setQuantity(productAmt - orderAmt);
 				// retruns values in csv format which we can easily split later
 				line = "" + productName + "," + orderAmt + "," + String.format("€%.2f", productPrice) + ","
 						+ String.format("€%.2f", total) + missing;
@@ -116,58 +105,38 @@ public class Shop {
 		return line;
 	}
 
+	// seraches through order
 	public String processProduct(String product, int orderAmt) {
-		// init line var with nothing
-
+		orderTotal = 0;
 		int missingStock = 0;
-		String missing = "";// populate if stock is short
-		// init var line containing default value
+		String missing = "";
 		String line = "\n";
 
-		// serach through stock for product
 		for (int i = 0; i < this.stock.size(); i++) {
 
 			ProductStock item = this.stock.get(i);
-			// equalsIgnoreCase if they are of the same length, and corresponding characters
-			// in the two strings are equal ignoring case. [3]
 			if (item.getProduct().getName().equalsIgnoreCase(product)) {
 
-				// line="";
 				String productName = item.getProduct().getName();
 				int productAmt = item.getQuantity();
 				double productPrice = item.getProduct().getPrice();
-
-				// display result
-				// line = "Name: " + productName + "\nPrice: " + productPrice + "\nStock: " +
-				// productAmt;
 				System.out.println(line);
-				// line = String.format("The shop has %d x %s at €%.2f in
-				// stock",productAmt,productName, productPrice);
-
-				// if there are more items on the order that we have available
 				if (orderAmt > productAmt) {
-					// more things are ordered than available
 					missingStock = orderAmt - productAmt;
-					// then the we will set the order amount to what we have
 					// GIVING MINUS VALUES CHECK THIS
 					orderAmt = productAmt - missingStock;
-					
-				}
 
-				// if we can fill the order we will add it
+				}
 				if (missingStock > 0) {
 					missing = "," + missingStock;
 				}
 
 				double total = orderAmt * productPrice;
-				orderTotal = orderTotal + total;
 				// remove the order from shop stock
-				// int newStock = productAmt-orderAmt;
 				item.setQuantity(productAmt - orderAmt);
 				// retruns values in csv format which we can easily split later
 				line = "" + productName + "," + orderAmt + "," + String.format("€%.2f", productPrice) + ","
 						+ String.format("€%.2f", total) + missing;
-				// orderList = new ArrayList<>();
 			}
 		}
 		return line;
@@ -177,10 +146,10 @@ public class Shop {
 		return stock;
 	}
 
+	// prints out product serach results
 	public static void printProduct(String product) {
 
 		// split products into array [5]
-
 		String[] products = product.split(",");
 
 		// if only one this is the default value we set earlier meanig there was no
@@ -203,14 +172,15 @@ public class Shop {
 			// otherwise there is so we print how many items were missing
 			else {
 
-				System.out.printf("****Order Check****\n%s %s costing %s but we are missing %s \nTotal: %s", products[1],
-						products[0], products[2], products[4], products[3]);
+				System.out.printf("****Order Check****\n%s %s costing %s but we are missing %s \nTotal: %s",
+						products[1], products[0], products[2], products[4], products[3]);
 			}
 
 		}
 
 	}
 
+	// method to print nicely formatted shop
 	public static void printShop(Shop shop) {
 
 		System.out.println("------------------------\nWELCOME TO THE SHOP\n------------------------\n");
@@ -218,27 +188,15 @@ public class Shop {
 		System.out.println(shop.getStock());
 	}
 
+	// method to print out order list
 	public static void printOrderList(ArrayList<ProductStock> order) {
 
 		for (ProductStock productStock : order) {
 
 			System.out.println(productStock.getQuantity());
-
 			System.out.println(productStock.getProduct().getName());
 
 		}
 	}
-
-//public static void main(String[] args) {
-//		Shop shop = new Shop("src/javaShop/stock.csv");
-//		printShop(shop);
-//		String search= shop.searchProduct("Coke Can", 1);
-//		printProduct(search);
-//		
-//}
-
-	// Customer cust = new Customer("src/javaShop/customer.csv");
-	// double budget = cust.getBudget();
-	// String name = cust.getName();
 
 }

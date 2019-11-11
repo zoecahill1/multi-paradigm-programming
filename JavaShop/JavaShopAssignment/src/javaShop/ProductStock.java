@@ -3,7 +3,7 @@ package javaShop;
 public class ProductStock {
 	private Product product;
 	private int quantity;
-	
+
 	public ProductStock(Product product, int quantity) {
 		super();
 		this.product = product;
@@ -17,18 +17,15 @@ public class ProductStock {
 	public int getQuantity() {
 		return quantity;
 	}
-	
+
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
 	@Override
 	public String toString() {
-		//System.out.println(product + "\nAmount: "+ quantity + "\n");
 		System.out.println(getProduct() + "\nAmount: " + getQuantity() + "\n");
 		return "";
 	}
-	
-	
 
 }

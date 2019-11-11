@@ -57,6 +57,11 @@ approach (in Java). The live mode, and the input files, should have exact same b
 8. https://www.w3resource.com/c-programming/c-for-loop.php
 9. https://www.cs.uic.edu/~jbell/CourseNotes/C_Programming/Decisions.html
 10. https://www.geeksforgeeks.org/menu-driven-program-using-switch-case-c/
+11. https://www.stepbystepjava.com/2018/04/27/creation-writing-csv-file-in-c/
+12. https://www.tutorialspoint.com/c_standard_library/c_function_fprintf.html
+13. https://stackoverflow.com/questions/18627163/yes-no-loop-in-c
+14. https://www.geeksforgeeks.org/c-program-delete-file/
+
 
 ### javaShop Package
 1. https://stackoverflow.com/questions/41010532/i-want-to-print-a-formatted-array-in-java

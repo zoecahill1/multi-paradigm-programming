@@ -344,6 +344,77 @@ int input()
 	return (number);
 }
 
+// function for creating and writing in order in csv [11]
+void createOrder(){
+FILE *fp;
+int i, count, budget, amt;
+char name[10];
+char prodname[20];
+
+// TODO make timestamp filename name or something unique
+const char *filename=("order2.csv");
+
+// user input
+fp = fopen(filename,"w+");
+printf("What is your name? ");
+scanf("%s", &name);
+// [12]
+fprintf(fp,"Name,%s", name);
+
+printf("What is your budget? ");
+budget = input();
+fprintf(fp,"\nBudget,%d",budget);
+
+printf("How many items do you want to buy? ");
+count = input();
+
+// TODO fix two word prodnames - currently entering as 2 rows
+// TODO fix lowercase vs capital search
+for(i = 1; i <= count; i++){
+	printf("\nEnter name of product: ");
+	scanf("%s", &prodname);
+	
+	printf("Enter amount needed: ");
+	amt = input();
+
+	// add space to match orignal order csv?
+	fprintf(fp,"\n%s, ,%d",prodname,amt);
+}
+
+fclose(fp);
+printf("Your order has been created");
+}
+
+void liveshop(struct Shop s){
+	char answer;
+	printf("\n*********Live Mode Shop*************\n\n");
+	printf("Hi there, I will now take your order...\n");
+	
+	// call will create a csv file that takes user input
+	createOrder();
+	// creating new customer struct using csv we made in create order
+	struct Customer cust = createShoppingList("order2.csv");
+	checkOrder(s,cust);
+	
+	printf("Would you like to proceed with your order? (y or n): ");
+	scanf(" %c", &answer);
+	
+	// yes option [13]
+	if (answer == 'Y' || 'y'){
+
+	s = checkOrder(s,cust);
+	// updateShop will keep the shops state consistent
+	updateShop(s,"stock.csv");
+	printf("\n\n*****************UPDATED SHOP*****************\n");
+	printShop(s);
+	
+	}
+	// deletes order we created once finished as we will write a new one for another new customer [14]
+	remove("order2.csv");
+	printf("GoodBye!\n");
+}
+
+
 int main(void) 
 {
 	// init instance of shop and customer order from csv
@@ -359,7 +430,8 @@ int main(void)
 		printf("\n2. View the current customer's details and shopping list");
 		printf("\n3. Check stock against current customers shopping list");
 		printf("\n4. Process order");
-		printf("\n5. To exit program\n");
+		printf("\n5. To shop in live mode\n");
+		printf("\n6. To exit program\n");
 		printf("\nPlease enter your choice: ");
 		choice = input();
 
@@ -382,6 +454,10 @@ int main(void)
 					printShop(shop);
 					break;
 			case 5:
+					liveshop(shop);
+					break;
+
+			case 6:
 					return 0;
 			default:	
 					printf("\nInvalid option, please try again!\n");
@@ -389,7 +465,7 @@ int main(void)
 		}
 	}
 	
-	while (choice != 5);
+	while (choice != 6);
 	
 	return 0;
 }
