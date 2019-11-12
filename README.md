@@ -1,4 +1,6 @@
-![banner](/img/banner.png)
+<p align="center">
+  <img src="/img/banner.png" alt="banner"/>
+</p>
 # Multi Paradigm Programming - Shop Assignment
 This repositry contains my solutions to the Shop Assignment for the module Multi Paradigm Programming in GMIT.
 
