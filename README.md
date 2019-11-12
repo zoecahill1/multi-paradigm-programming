@@ -1,4 +1,4 @@
-![banner](/img/banner.png)
+![banner](/img/banner.png = 250x250)
 # Multi Paradigm Programming - Shop Assignment
 This repositry contains my solutions to the Shop Assignment for the module Multi Paradigm Programming in GMIT.
 
